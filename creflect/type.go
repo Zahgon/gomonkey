@@ -25,11 +25,7 @@ type rtype struct {
 	ptrToThis typeOff // type for pointer to this type, may be zero
 }
 
-func Create(t reflect.Type) *rtype {
-	i := *(*funcValue)(unsafe.Pointer(&t))
-	r := (*rtype)(i.p)
-	return r
-}
+func Create(t reflect.Type) *rtype { _ = "STUB: not implemented"; return nil }
 
 type funcValue struct {
 	_ uintptr
@@ -37,30 +33,18 @@ type funcValue struct {
 }
 
 func funcPointer(v reflect.Method, ok bool) (unsafe.Pointer, bool) {
-	return (*funcValue)(unsafe.Pointer(&v.Func)).p, ok
+	_ = "STUB: not implemented"
+	return *new(unsafe.Pointer), false
 }
-func MethodByName(r reflect.Type, name string) (fn unsafe.Pointer, ok bool) {
-	t := Create(r)
-	if r.Kind() == reflect.Interface {
-		return funcPointer(r.MethodByName(name))
-	}
-	ut := t.uncommon(r)
-	if ut == nil {
-		return nil, false
-	}
 
-	for _, p := range ut.methods() {
-		if t.nameOff(p.name).name() == name {
-			return t.Method(p), true
-		}
-	}
-	return nil, false
+func MethodByName(r reflect.Type, name string) (fn unsafe.Pointer, ok bool) {
+	_ = "STUB: not implemented"
+	return *new(unsafe.Pointer), false
 }
 
 func (t *rtype) Method(p method) (fn unsafe.Pointer) {
-	tfn := t.textOff(p.tfn)
-	fn = unsafe.Pointer(&tfn)
-	return
+	_ = "STUB: not implemented"
+	return *new(unsafe.Pointer)
 }
 
 type tflag uint8
@@ -72,15 +56,14 @@ type textOff int32 // offset from top of text section
 func resolveTextOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 
 func (t *rtype) textOff(off textOff) unsafe.Pointer {
-	return resolveTextOff(unsafe.Pointer(t), int32(off))
+	_ = "STUB: not implemented"
+	return *new(unsafe.Pointer)
 }
 
 //go:linkname resolveNameOff reflect.resolveNameOff
 func resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointer
 
-func (t *rtype) nameOff(off nameOff) name {
-	return name{(*byte)(resolveNameOff(unsafe.Pointer(t), int32(off)))}
-}
+func (t *rtype) nameOff(off nameOff) name { _ = "STUB: not implemented"; return *new(name) }
 
 const (
 	tflagUncommon tflag = 1 << 0
@@ -109,7 +92,8 @@ type funcType struct {
 }
 
 func add(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
-	return unsafe.Pointer(uintptr(p) + x)
+	_ = "STUB: not implemented"
+	return *new(unsafe.Pointer)
 }
 
 // interfaceType represents an interface type.
@@ -129,39 +113,7 @@ type String struct {
 	Len  int
 }
 
-func (t *rtype) uncommon(r reflect.Type) *uncommonType {
-	if t.tflag&tflagUncommon == 0 {
-		return nil
-	}
-	switch r.Kind() {
-	case reflect.Ptr:
-		type u struct {
-			ptrType
-			u uncommonType
-		}
-		return &(*u)(unsafe.Pointer(t)).u
-	case reflect.Func:
-		type u struct {
-			funcType
-			u uncommonType
-		}
-		return &(*u)(unsafe.Pointer(t)).u
-	case reflect.Interface:
-		type u struct {
-			interfaceType
-			u uncommonType
-		}
-		return &(*u)(unsafe.Pointer(t)).u
-	case reflect.Struct:
-		type u struct {
-			interfaceType
-			u uncommonType
-		}
-		return &(*u)(unsafe.Pointer(t)).u
-	default:
-		return nil
-	}
-}
+func (t *rtype) uncommon(r reflect.Type) *uncommonType { _ = "STUB: not implemented"; return nil }
 
 // Method on non-interface type
 type method struct {
@@ -171,9 +123,4 @@ type method struct {
 	tfn  textOff // fn used for normal method call
 }
 
-func (t *uncommonType) methods() []method {
-	if t.mcount == 0 {
-		return nil
-	}
-	return (*[1 << 16]method)(add(unsafe.Pointer(t), uintptr(t.moff), "t.mcount > 0"))[:t.mcount:t.mcount]
-}
+func (t *uncommonType) methods() []method { _ = "STUB: not implemented"; return nil }

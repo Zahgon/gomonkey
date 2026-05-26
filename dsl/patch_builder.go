@@ -1,9 +1,6 @@
 package dsl
 
 import (
-	"fmt"
-	"reflect"
-
 	. "github.com/agiledragon/gomonkey/v2"
 )
 
@@ -18,48 +15,28 @@ type PatchBuilder struct {
 	funcPara FuncPara
 }
 
-func NewPatchBuilder(patches *Patches) *PatchBuilder {
-	funcPara := FuncPara{target: nil, constraints: make([]Constraint, 0),
-		behaviors: make([]Behavior, 0)}
-	return &PatchBuilder{patches: patches, funcPara: funcPara}
-}
+func NewPatchBuilder(patches *Patches) *PatchBuilder { _ = "STUB: not implemented"; return nil }
 
 func (this *PatchBuilder) Func(target interface{}) *PatchBuilder {
-	this.funcPara.target = target
-	return this
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (this *PatchBuilder) Stubs() *PatchBuilder {
-	return this
-}
+func (this *PatchBuilder) Stubs() *PatchBuilder { _ = "STUB: not implemented"; return nil }
 
 func (this *PatchBuilder) With(matcher ...Constraint) *PatchBuilder {
-	this.funcPara.constraints = append(this.funcPara.constraints, matcher...)
-	return this
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (this *PatchBuilder) Will(behavior Behavior) *PatchBuilder {
-	this.funcPara.behaviors = append(this.funcPara.behaviors, behavior)
-	return this
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (this *PatchBuilder) Then(behavior Behavior) *PatchBuilder {
-	this.funcPara.behaviors = append(this.funcPara.behaviors, behavior)
-	return this
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (this *PatchBuilder) End() {
-	funcType := reflect.TypeOf(this.funcPara.target)
-	t := reflect.ValueOf(this.funcPara.target)
-	d := reflect.MakeFunc(funcType, func(inputs []reflect.Value) []reflect.Value {
-		matchers := this.funcPara.constraints
-		for i, input := range inputs {
-			if !matchers[i].Eval(input.Interface()) {
-				info := fmt.Sprintf("input paras %v is not matched", input.Interface())
-				panic(info)
-			}
-		}
-		return GetResultValues(funcType, this.funcPara.behaviors[0].Apply()[0]...)
-	})
-	this.patches.ApplyCore(t, d)
-}
+func (this *PatchBuilder) End() { _ = "STUB: not implemented"; return }

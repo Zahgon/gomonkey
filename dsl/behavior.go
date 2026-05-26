@@ -11,10 +11,7 @@ type ReturnBehavior struct {
 	params Params
 }
 
-func (this *ReturnBehavior) Apply() []Params {
-	this.rets = append(this.rets, this.params)
-	return this.rets
-}
+func (this *ReturnBehavior) Apply() []Params { _ = "STUB: not implemented"; return nil }
 
 type RepeatBehavior struct {
 	rets     []Params
@@ -22,9 +19,4 @@ type RepeatBehavior struct {
 	times    int
 }
 
-func (this *RepeatBehavior) Apply() []Params {
-	for i := 0; i < this.times; i++ {
-		this.rets = append(this.rets, this.behavior.Apply()[0])
-	}
-	return this.rets
-}
+func (this *RepeatBehavior) Apply() []Params { _ = "STUB: not implemented"; return nil }
